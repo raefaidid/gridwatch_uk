@@ -1,0 +1,27 @@
+column_names,description
+id,table id
+timestamp,datetime of the record
+demand,"This is the demand recorded by central metering. Actual demand is higher as some is met by embedded technology such as small wind turbines, and domestic solar panels. Solar power is included in this figure."
+frequency,This is the grid frequency. Somewhat a measure instantaneous imbalance between supply and demand.
+coal,The output from the last remaining British coal fired power stations.
+nuclear,Total output of all of Britain's nuclear power stations.
+ccgt,Total output of all Britain's Combined Cycle Gas Turbine power stations.
+wind,"Output of all metered wind farms. Unmetered (embedded) wind farms are not recorded here, and will show only as a small drop in demand more or less in proportion to the metered wind farm outputs."
+pumped,"The output of our pumped storage hydroelectric power stations. The power used to recharge them is not recorded, and again appears as an increase in demand, only."
+hydro,The total output of all our hydroelectric power stations.
+biomass,"This reflects the larger wood burning power stations, such as Drax's converted coal boilers."
+oil,"Almost never used, and in fact it is not clear whether any operational plant still exists."
+solar,"This is the estimated output of solar power, provided by Sheffield University. It must be stressed that this is a best guess, not an actual measured output, and there are reasons to suppose it is perhaps 10% larger than reality."
+ocgt,"This is a record of Britains's Open Cycle Gas Turbine plants. These are operated only at times of peak demand, as they are 'gas guzzlers'. A little more is being built as part of the Short Term Operating Reserve plant - plant paid to be available at short notice to cover peak winter demend."
+french_ict,The import (positive) or export (negative) of power via the French Interconnector.
+dutch_ict,The import (positive) or export (negative) of power via the Dutch Interconnector (BRITNED).
+irish_ict,The import (positive) or export (negative) of power via the Irish Interconnector from Scotland (Moyle).
+ew_ict,The import (positive) or export (negative) of power via the Irish Interconnector from Wales (East-West).
+nemo,The import (positive) or export (negative) of power via the NEMO Interconnector from Kent to Belgium.
+other,"This field used to represent biomass, but that now has its own field. It is not clear what this field currently represents: Possibly some STOR capacity like diesels."
+north_south,This is a measure of power flow recorded by the National grid from the North of England to the South.
+scotland_england,This is a measure of power flow recorded by the National grid from Scotland to England. It is of particular interest to those looking to assess the impact of the closure of Scotland's nuclear and coal plant on the economy of a putatively independent 'all renewable' Scotland.
+ifa2,The import (positive) or export (negative) of power via the second (2021) French Interconnector.
+intelec_ict,The import (positive) or export (negative) of power via the third Channel Tunnel French Interconnector.
+nsl,The import (positive) or export (negative) of power via the Norway Interconnector.
+vkl_ict,The import (positive) or export (negative) of power via the Norway Viking Interconnector.
