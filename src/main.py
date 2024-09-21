@@ -4,6 +4,7 @@ import duckdb as ddb
 from queries import *
 import datetime
 from datetime import datetime as dt
+import altair as alt
 
 st.set_page_config(layout="wide")
 
@@ -19,14 +20,18 @@ Keywords: Power Grid, Time Series Analysis, Energy Mix, Moving Average, UK Energ
 
 """
 
+markdown_analysis ="""
+## Electricity Demand and Energy Source Trends
 
-def main(conn):
+The analysis reveals a **downward trend** in **average electricity demand over the years**. Specifically, demand tends to **decrease** between **May** and **July**, with the lowest points occurring just before August. In contrast, electricity demand **increases** between **November** and **March**, reflecting higher consumption during winter months. This seasonality aligns with the usage of heating systems in winter, driving up electricity demand.
+
+We also observed significant shifts in energy output by source. **Coal, nuclear, and gas** are showing a consistent **decline**, while **wind, biomass, and solar energy** are on the **rise**. Notably, wind energy output has grown substantially since 2016. This suggests the UK's increasing awareness of environmental concerns like global warming and a shift toward more sustainable energy sources.
+
+Understanding these trends in electricity demand and energy production is crucial for **planning**. It allows for **better management** of supply across seasons and supports the gradual transition to environmentally friendly energy sources.
+"""
+
+def get_report_level_filters():
     
-    st.title(':orange[UK Gridwatch Dashboard]')
-    
-    with st.sidebar:
-        st.header(':orange[Chose your reporting period]')
-        
         min_date = st.date_input(label='Enter :orange[minimum] date for analysis', value=datetime.date(2011,1,1),
                              min_value=datetime.date(2011,1,1),
                              max_value=datetime.date(2024,1,1),format="YYYY-MM-DD")
@@ -35,12 +40,32 @@ def main(conn):
                              min_value=datetime.date(2012,1,1),
                              max_value=datetime.date(2024,12,31),format="YYYY-MM-DD")
         
-        st.write(" :violet[Running on Streamlit version] -- " + st.__version__)
-    
-    
-    if min_date > max_date:
+        if min_date > max_date:
 
-        st.warning('Minimum Date should be earlier than maximum Date')
+         st.warning('Minimum Date should be earlier than maximum Date')
+        
+        return min_date, max_date
+    
+    
+def preview_tables(conn):
+    option = st.selectbox("Choose a table", ('dim_datetime', 'dim_energy_output_and_flow', 'fct_gridwatch'))
+    df = check_tbl(conn,option)
+    return df
+
+
+def main(conn):
+    
+    st.title(':orange[UK Gridwatch Dashboard]')
+    
+    with st.sidebar:
+        st.header(':orange[Chose your reporting period]')
+        
+        min_date, max_date = get_report_level_filters()
+        
+        st.write(" :violet[Streamlit version:] " + st.__version__)
+        
+        st.write(" :violet[Made by:] " + "Raef Aidid")
+    
     
     tab1, tab2, tab3, tab4 = st.tabs([':orange[About]','Data Summaries','Interconnectors', 'Peak & Troughs Demand Analysis'])
     
@@ -52,16 +77,12 @@ def main(conn):
         
         with col1:
             st.subheader(':orange[Tables]')
-            option = st.selectbox("Choose a table", ('dim_datetime', 'dim_energy_output_and_flow', 'fct_gridwatch'))
-            df = check_tbl(conn,option)
+            df = preview_tables(conn)
             st.write(df)
             
         with col2:
             st.subheader(':orange[Data Model]')
             st.image("gridwatch-Page-2.drawio.png", caption = "This is data model of the UK Gridwatch dataset")
-            
-        with st.expander(':orange[Expand to see the data model]'):
-            st.image("gridwatch-Page-2.drawio.png")
     
     with tab2: 
         st.header("Year-on-Year Averages")
@@ -71,12 +92,25 @@ def main(conn):
             df = yearly_avg_energy_demand(conn, min_date, max_date)
             st.line_chart(df, x='year', y='demand', y_label = 'Energy Demand', x_label = 'Year')
             
+            
         with col2:
             st.subheader("Average :orange[energy output] by source")
             df = yearly_avg_energy_source_contribution(conn, min_date, max_date)
             st.line_chart(df, x='year', y=['coal', 'nuclear', 'ccgt', 'wind', 'pumped', 'hydro', 'biomass', 'oil', 'solar', 'ocgt'], y_label = 'Energy Demand', x_label = 'Year')
             
-        st.header("Peaks and Troughs for Electricity :orange[Demand]")
+        st.header("Moving Average for Electricty :orange[Demand]")
+        window_size_demand = st.slider(':orange[Choose the rolling window size for demand]',min_value=5,max_value=50,value=28)
+        window_size_demand = window_size_demand - 1
+        df = time_series_view_demand(conn,window_size=window_size_demand, start_date=min_date, end_date=max_date)
+        st.line_chart(df, x='date',y=['da'])
+        
+        st.header("Moving Average for Energy :orange[Output] by Source")
+        window_size_energy_mix = st.slider(':orange[Choose the rolling window size for energy mix]',min_value=5,max_value=50,value=28)
+        window_size_energy_mix = window_size_energy_mix - 1
+        df = energy_source_contribution(conn, window_size_energy_mix,min_date, max_date)
+        st.line_chart(df, x='date', y=['coal', 'nuclear', 'ccgt', 'wind', 'pumped', 'hydro', 'biomass', 'oil', 'solar', 'ocgt'])
+        
+        st.header("Trend of Electricity :orange[Demand] by Year, Week or Day")
         
         option = st.selectbox(":orange[Choose the date granularity]", ('Daily', 'Weekly', 'Yearly'), index=2)
         
@@ -89,18 +123,6 @@ def main(conn):
         elif option == 'Yearly':
             df = yearly_demand(conn, min_date, max_date)
             st.line_chart(df, x='year',y='demand')
-            
-        st.header("Moving Average for :orange[Demand]")
-        window_size_demand = st.slider(':orange[Choose the rolling window size for demand]',min_value=5,max_value=50,value=28)
-        window_size_demand = window_size_demand - 1
-        df = time_series_view_demand(conn,window_size=window_size_demand, start_date=min_date, end_date=max_date)
-        st.line_chart(df, x='date',y=['da'])
-        
-        st.header("Moving Average for :orange[Energy Output] by Source")
-        window_size_energy_mix = st.slider(':orange[Choose the rolling window size for energy mix]',min_value=5,max_value=50,value=28)
-        window_size_energy_mix = window_size_energy_mix - 1
-        df = energy_source_contribution(conn, window_size_energy_mix,min_date, max_date)
-        st.line_chart(df, x='date', y=['coal', 'nuclear', 'ccgt', 'wind', 'pumped', 'hydro', 'biomass', 'oil', 'solar', 'ocgt'])
         
     with tab3:
         st.header("Import & Export of Power")
@@ -149,15 +171,8 @@ def main(conn):
         
         
     with tab4:
-        col1,col2 = st.columns(2,gap="medium" )
-        with col1:
-            df = coal_output(conn)
-            st.line_chart(df, x='month', y='total_coal', y_label = 'Coal Output', x_label = 'Timestamp')
-        with col2:
-            df = nuclear_output(conn)
-            st.line_chart(df, x='month', y='total_nuclear', y_label = 'Nuclear Output', x_label = 'Timestamp')
+        st.markdown(markdown_analysis)
             
-    
 if __name__ == '__main__':
     with ddb.connect('gridwatch.db', read_only=True) as conn:
         main(conn)

@@ -1,4 +1,4 @@
-import duckdb as ddb
+import duckdb as dd
 
 def check_db(conn):
     df = conn.sql('SHOW ALL TABLES').fetchdf()
