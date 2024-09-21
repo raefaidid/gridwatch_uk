@@ -1,3 +1,5 @@
 *.pdf
 venv/*
 data/gridwatch_110514_240914.csv
+*.sql
+.DS_store
