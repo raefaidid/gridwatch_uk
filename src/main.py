@@ -67,7 +67,7 @@ def main(conn):
         st.write(" :violet[Made by:] " + "Raef Aidid")
     
     
-    tab1, tab2, tab3, tab4 = st.tabs([':orange[About]','Data Summaries','Interconnectors', 'Peak & Troughs Demand Analysis'])
+    tab1, tab2, tab3, tab4 = st.tabs([':orange[About]','Data Summaries','Interconnectors', 'Data Analysis'])
     
     with tab1:
         
