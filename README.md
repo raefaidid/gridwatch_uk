@@ -6,11 +6,11 @@ This project involves designing an end-to-end data pipeline using the UK Gridwat
 You may view the live web app here: https://gridwatchuk.streamlit.app/
 
 ## Table of Content
-1. [Dataset Used](##dataset-used)
-2. [Technologies](##technologies)
-3. [Data Pipeline Architecture](##data-pipeline-architecture)
-4. [Data Modeling](##data-modelling)
-5. [Pipeline Stages](##pipeline-stages)
+1. [Dataset Used](#dataset-used)
+2. [Technologies](#technologies)
+3. [Data Pipeline Architecture](#data-pipeline-architecture)
+4. [Data Modeling](#data-modelling)
+5. [Pipeline Stages](#pipeline-stages)
 
 ## Dataset Used
 Source: [UK Gridwatch Dataset](https://www.gridwatch.templar.co.uk/)
