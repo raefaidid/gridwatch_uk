@@ -29,7 +29,8 @@ The architecture follows a layered approach:
 - Download CSV: Collect data from the Gridwatch website.
 - Ingest into In-Memory DB: Load the data into DuckDB for fast querying.
 - Storage orgnization: Following the Bronze-Silver-Gold model.
-- Data Modeling: Transform the data using the star schmea.
+- Data Modeling: Transform the data using the star schema.
+- Dashboard Design: Created computable queries to be projected onto charts. Applied simple moving average technique to smoothen lines for peak & trough analysis.
 - Web App Development: Build and deploy a dashboard using Streamlit.
 - Hosting: Host the Streamlit app online.
 
