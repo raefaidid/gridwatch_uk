@@ -1,14 +1,14 @@
-# ⚡️ UK Gridwatch Data Engineering Challenge 
+# ⚡️ UK Gridwatch Data Engineering Project 
 
 ## Objective
 This project involves designing an end-to-end data pipeline using the UK Gridwatch dataset, which provides historical power consumption data. The goal is to clean, model, and visualize the data using a dashboard to present key insights, including summaries like year-on-year averages and peak demands.
 
 ## Table of Content
-[Dataset Used](##dataset-used)
-[Technologies](##technologies)
-[Data Pipeline Architecture](##data-pipeline-architecture)
-[Data Modeling](##data-modelling)
-[Pipeline Stages](##pipeline-stages)
+1. [Dataset Used](##dataset-used)
+2. [Technologies](##technologies)
+3. [Data Pipeline Architecture](##data-pipeline-architecture)
+4. [Data Modeling](##data-modelling)
+5. [Pipeline Stages](##pipeline-stages)
 
 ## Dataset Used
 Source: [UK Gridwatch Dataset](https://www.gridwatch.templar.co.uk/)
