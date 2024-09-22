@@ -3,6 +3,8 @@
 ## Objective
 This project involves designing an end-to-end data pipeline using the UK Gridwatch dataset, which provides historical power consumption data. The goal is to clean, model, and visualize the data using a dashboard to present key insights, including summaries like year-on-year averages and peak demands.
 
+You may view the live web app here: https://gridwatchuk.streamlit.app/
+
 ## Table of Content
 1. [Dataset Used](##dataset-used)
 2. [Technologies](##technologies)
