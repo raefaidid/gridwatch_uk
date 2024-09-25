@@ -91,24 +91,28 @@ def main(conn):
             st.subheader(f'Average electricity :orange[demand]')
             df = yearly_avg_energy_demand(conn, min_date, max_date)
             st.line_chart(df, x='year', y='demand', y_label = 'Energy Demand', x_label = 'Year')
+            st.caption("There is a downward trend in electricity demand from 2024 onwards, as shown by the x-axis (year) and y-axis (energy demand). Notably, there is a dip in demand during 2020, followed by a recovery, likely reflecting the impact of the 2020 pandemic.", help="Average electricity demand")
             
             
         with col2:
             st.subheader("Average :orange[energy output] by source")
             df = yearly_avg_energy_source_contribution(conn, min_date, max_date)
             st.line_chart(df, x='year', y=['coal', 'nuclear', 'ccgt', 'wind', 'pumped', 'hydro', 'biomass', 'oil', 'solar', 'ocgt'], y_label = 'Energy Demand', x_label = 'Year')
-            
+            st.caption("There are changes in energy output trend for different energy sources. For instance, coal, gas and nuclear show a downward trend whereas energy like wind, biomass and solar show an upward trend. Significantly, source from coal showed a steep drop in 2016 likely because of the UK government sustainable-energy initiatives.", help="Average energy output")
+             
         st.header("Moving Average for Electricty :orange[Demand]")
         window_size_demand = st.slider(':orange[Choose the rolling window size for demand]',min_value=5,max_value=50,value=28)
         window_size_demand = window_size_demand - 1
         df = time_series_view_demand(conn,window_size=window_size_demand, start_date=min_date, end_date=max_date)
         st.line_chart(df, x='date',y=['da'])
+        st.caption("With the moving average applied, seasonal patterns become more apparent as electricity demand are high during the winter season and low during the summer season.", help="Electricty Demand")
         
         st.header("Moving Average for Energy :orange[Output] by Source")
         window_size_energy_mix = st.slider(':orange[Choose the rolling window size for energy mix]',min_value=5,max_value=50,value=28)
         window_size_energy_mix = window_size_energy_mix - 1
         df = energy_source_contribution(conn, window_size_energy_mix,min_date, max_date)
         st.line_chart(df, x='date', y=['coal', 'nuclear', 'ccgt', 'wind', 'pumped', 'hydro', 'biomass', 'oil', 'solar', 'ocgt'])
+        st.caption("Applying a moving average clarifies trends across energy sources. Coal shows higher seasonal variation in output, while nuclear shows lower. Wind energy, on the rise, also follows seasonal patterns.", help="Energy Output")
         
         st.header("Trend of Electricity :orange[Demand] by Year, Week or Day")
         
@@ -117,12 +121,15 @@ def main(conn):
         if option == 'Daily':
             df = daily_demand(conn, min_date, max_date)
             st.line_chart(df, x='date',y='demand')
+            st.caption("Total energy output grouped by day", help="Energy Output")
         elif option == 'Weekly':
             df = weekly_demand(conn, min_date, max_date)
             st.line_chart(df, x='year_week',y='demand')
+            st.caption("Total energy output grouped by ISO week", help="Energy Output")
         elif option == 'Yearly':
             df = yearly_demand(conn, min_date, max_date)
             st.line_chart(df, x='year',y='demand')
+            st.caption("Total energy output grouped by year", help="Energy Output")
         
     with tab3:
         st.header("Import & Export of Power")
