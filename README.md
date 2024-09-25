@@ -13,7 +13,7 @@ You may view the live web app here: https://gridwatchuk.streamlit.app/
 5. [Pipeline Stages](#pipeline-stages)
 6. [Challenges](#challenges)
 7. [Limitations](#limitations)
-8. [Pipeline Stages](#pipeline-stages)
+8. [Enhancements](#Enhancements)
 
 ## Dataset Used
 Source: [UK Gridwatch Dataset](https://www.gridwatch.templar.co.uk/)
